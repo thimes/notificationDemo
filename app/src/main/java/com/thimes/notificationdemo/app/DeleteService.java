@@ -5,10 +5,8 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
-/**
- * Created by thimes on 5/29/14.
- */
 public class DeleteService extends IntentService {
 
     private static final String EXTRA_NOTIFICATION_ID = "com.himes.demo.notifications.NOTIFICATION_ID";
@@ -24,6 +22,8 @@ public class DeleteService extends IntentService {
         int notificationId = intent.getIntExtra(EXTRA_NOTIFICATION_ID, -1);
         NotificationManager notifMgr = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
         notifMgr.cancel(notificationId);
+        Toast.makeText(this, "deleted it !!", Toast.LENGTH_SHORT).show();
+        Log.v(TAG, "Notification was dismissed");
         // TODO: do more interesting things here, if you want to switch on the action
     }
 

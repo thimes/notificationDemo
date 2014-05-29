@@ -160,13 +160,16 @@ public class MainActivity extends Activity {
                 .setContentText("This is the notification type " + notificationId + " text")
                 .setContentIntent(contentIntent)
                 .setAutoCancel(true)
-                .setWhen(System.currentTimeMillis() - DateUtils.DAY_IN_MILLIS) // yesterday will always be the time
-                .addAction(android.R.drawable.ic_delete, "Delete", getDeleteActionPendingIntent(notificationId));
+                .setDeleteIntent(getDeleteActionPendingIntent(notificationId))
+                .setWhen(System.currentTimeMillis() - DateUtils.DAY_IN_MILLIS); // yesterday will always be the time
+//                .addAction(android.R.drawable.ic_delete, "Delete", getDeleteActionPendingIntent(notificationId));
         return builder;
     }
 
     private PendingIntent getDeleteActionPendingIntent(int notificationId) {
-        PendingIntent deleteIntent = PendingIntent.getService(this, notificationId, DeleteService.createIntent(this, notificationId), 0);
+        // request code should be different for each pending intent type, since the only way that the intents being wrapped differ is by their extras
+        int requestCode = notificationId;
+        PendingIntent deleteIntent = PendingIntent.getService(this, requestCode, DeleteService.createIntent(this, notificationId), 0);
         return deleteIntent;
     }
 
